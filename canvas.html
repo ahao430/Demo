@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    html, body{margin: 0; padding: 0; width: 100%; height: 100%;}
+    .main{display: flex; height: 100%;}
+    .left{flex: 1;padding: 10px; height: 100%; box-sizing: border-box;}
+    .left h3{margin: 0 0 20px; padding: 0;}
+    .left .code{background: #ccc; height: calc(100% - 50px); overflow: auto; box-sizing: border-box; padding: 20px; line-height: 1.5;}
+    .right{flex: 0 0 800px; padding: 10px; height: 100%; box-sizing: border-box; text-align: center;}
+    .right h3{margin: 0 0 20px;padding: 0 35px;text-align-last: left;}
+    .right .canvas{border: 5px solid #000; width: 700px; height: 700px; margin: 0 auto;}
+    .right .btn{padding: 5px 10px; font-size: 20px; margin-top: 20px; margin-right: 20px;}
+    .right .btn:hover{cursor: pointer; outline: 1px solid yellow; border-radius: 3px; color: white;}
+  </style>
+</head>
+<body>
+  <div class="main">
+    <div class="left">
+      <h3>代码区域：</h3>
+      <div class="code" id="code" contenteditable="true" title="#code"></div>
+    </div>
+    <div class="right">
+      <h3>canvas(id: "canvas")：</h3>
+      <canvas id="canvas" class="canvas" title="#canvas"></canvas>
+      <input type="button" class='btn' id="renderBtn" value='渲染' style="background: green" title="render">
+      <input type="button" class='btn' id="resetBtn" value='重置' style="background: red" title="reset">
+    </div>
+  </div>
+  <script>
+    !function(){
+      var code = document.getElementById('code');
+      var canvas = document.getElementById('canvas');
+      var renderBtn = document.getElementById('renderBtn');
+      var resetBtn = document.getElementById('resetBtn');
+
+      // code.addEventListener('blur', render);
+      renderBtn.addEventListener('click', render);
+      resetBtn.addEventListener('click', reset);
+
+      init();
+
+      function init () {
+        var str = '<div>/* 请再此输入代码 */</div><div>var canvas = document.getElementById("canvas");</div><div>canvas.width = "500";</div><div>canvas.height = "500";</div><div>var ctx = canvas.getContext("2d");</div>';
+        code.innerHTML = str;
+      }
+      function render () {
+        try{
+          eval(code.innerText);
+        }catch(err){
+          alert(err);
+        }
+      }
+      function reset () {
+        location.reload();
+      }
+    }();
+  </script>
+</body>
+</html>
